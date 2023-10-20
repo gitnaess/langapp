@@ -1,0 +1,156 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content %}
+<h1 align="center">Practice Languages</h1>
+
+
+<div class="language-buttons-container">
+  <div class="language-buttons">
+<form method="POST" action="{{ url_for('views.set_language') }}">
+  <input type="hidden" name="language" value="it">
+  <button type="submit" class="btn btn-primary">Italian</button>
+</form>
+<form method="POST" action="{{ url_for('views.set_language') }}">
+  <input type="hidden" name="language" value="de">
+  <button type="submit" class="btn btn-primary">German</button>
+</form>
+<form method="POST" action="{{ url_for('views.set_language') }}">
+  <input type="hidden" name="language" value="fr">
+  <button type="submit" class="btn btn-primary">French</button>
+</form>
+<form method="POST" action="{{ url_for('views.set_language') }}">
+  <input type="hidden" name="language" value="en">
+  <button type="submit" class="btn btn-primary">English</button>
+</form>
+<form method="POST" action="{{ url_for('views.set_language') }}">
+  <input type="hidden" name="language" value="es">
+  <button type="submit" class="btn btn-primary">Spanish</button>
+</form>
+</div></div>
+
+
+<br>
+<br>
+<br>
+<br>
+
+<!-- <div class="answered-data-display">
+  <h3>Your levels</h3>
+  <ul>
+    {% for data in user_answer_data %}
+      <li>
+        Language: {{ data.qlang }}, Type: {{ data.qtype }},
+        Difficulty: {{ data.difficulty }}, Correct Percent: {{ data.correctpct }},
+        Count: {{ data.icount }}, Correct Count: {{ data.icountcorrect }}
+      </li>
+    {% endfor %}
+  </ul>
+</div> -->
+
+
+<!-- <div class="answered-data-display">
+  <h3>Your levels</h3>
+  <ul>
+    {% for data in user_answer_data %}
+      {% if data.qlang == "it" and data.qtype == "imperfect" and data.difficulty == "1" %}
+        <li>
+          Language: {{ data.qlang }}, Type: {{ data.qtype }},
+          Difficulty: {{ data.difficulty }}, Correct Percent: {{ data.correctpct }},
+          Count: {{ data.icount }}, Correct Count: {{ data.icountcorrect }}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+</div> -->
+
+<br><h4>Italian</h4><br>
+
+<div class="tenses-container">
+  <div class="tense-section">
+    <h5>Imperfect</h5>
+    {{ it_imp_cor }} correct answers.
+    <div class="progress" style="height: 30px; width: 200px;">
+      <div class="progress-bar" role="progressbar" aria-valuenow="{{ it_imp_sco }}" aria-valuemin="0" aria-valuemax="100"></div>
+      <!-- <div class="progress-bar" role="progressbar" style="width: {{ it_imp_sco }}%;" aria-valuenow="{{ it_imp_sco }}" aria-valuemin="0" aria-valuemax="100"></div> -->
+    </div>
+    Good progress lately. Still some errors here and there, but lately you've improved your rate of correct answers.
+  </div>
+
+  <div class="tense-section">
+    <h5>Passato prossimo</h5>
+    {{ it_pas_cor }} correct answers.
+    <div class="progress" style="height: 30px; width: 200px;">
+      <div class="progress-bar" role="progressbar" aria-valuenow="{{ it_pas_sco }}" aria-valuemin="0" aria-valuemax="100"></div>
+      <!-- <div class="progress-bar" role="progressbar" style="width: {{ it_pas_sco }}%;" aria-valuenow="{{ it_pas_sco }}" aria-valuemin="0" aria-valuemax="100"></div> -->
+    </div>
+    Good work on the passato prossimo lately. More adventures to come!
+  </div>
+
+  <div class="tense-section">
+    <h5>Future</h5>
+    {{ it_fut_cor }} correct answers.
+    <div class="progress" style="height: 30px; width: 200px;">
+      <div class="progress-bar" role="progressbar" aria-valuenow="{{ it_fut_sco }}" aria-valuemin="0" aria-valuemax="100"></div>
+      <!-- <div class="progress-bar" role="progressbar" style="width: {{ it_fut_sco }}%;" aria-valuenow="{{ it_fut_sco }}" aria-valuemin="0" aria-valuemax="100"></div> -->
+    </div>
+    You are absolutely crushing it with the future tense in level one. Time to move on to level two, so in the coming quizzes you'll be seeing more advanced future tense sentences coming your way!
+  </div>
+</div>
+
+<div class="tenses-container">
+  <div class="tense-section">
+    <h5>Imperative</h5>
+    {{ it_imt_cor }} correct answers.
+    <div class="progress" style="height: 30px; width: 200px;">
+      <div class="progress-bar" role="progressbar" aria-valuenow="{{ it_imt_sco }}" aria-valuemin="0" aria-valuemax="100"></div>
+      <!-- <div class="progress-bar" role="progressbar" style="width: {{ it_imt_sco }}%;" aria-valuenow="{{ it_imt_sco }}" aria-valuemin="0" aria-valuemax="100"></div> -->
+    </div>
+    You still have a lot to learn of the imperative.
+  </div>
+
+  <div class="tense-section">
+    <h5>Conditional</h5>
+    {{ it_cond_cor }} correct answers.
+    <div class="progress" style="height: 30px; width: 200px;">
+      <div class="progress-bar" role="progressbar" aria-valuenow="{{ it_cond_sco }}" aria-valuemin="0" aria-valuemax="100"></div>
+      <!-- <div class="progress-bar" role="progressbar" style="width: {{ it_cond_sco }}%;" aria-valuenow="{{ it_cond_sco }}" aria-valuemin="0" aria-valuemax="100"></div> -->
+    </div>
+    You're not crushing it with conditional. It's okay - it's an advanced feature. But you do have some correct answers, and could soon master this mood.
+  </div>
+
+  <div class="tense-section">
+    <h5>Subjunctive</h5>
+    {{ it_sub_cor }} correct answers.
+    <div class="progress" style="height: 30px; width: 200px;">
+      <div class="progress-bar" role="progressbar" aria-valuenow="{{ it_sub_sco }}" aria-valuemin="0" aria-valuemax="100"></div>
+      <!-- <div class="progress-bar" role="progressbar" style="width: {{ it_sub_sco }}%;" aria-valuenow="{{ it_sub_sco }}" aria-valuemin="0" aria-valuemax="100"></div> -->
+    </div>
+    Subjunctive mood is difficult, but you'le love it, when first you master it.
+  </div>
+</div>
+
+
+
+{% endblock %}
+
+
+{% block javascript %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Get all progress bars
+    const progressBars = document.querySelectorAll('.progress-bar');
+  
+    // Iterate over each progress bar and set its width
+    progressBars.forEach(function(bar) {
+        const value = bar.getAttribute('aria-valuenow');
+        setTimeout(function() { 
+            bar.style.width = value + '%'; 
+        }, 50);  // slight delay to ensure the transition is noticed
+    });
+});
+
+
+
+</script>
+
+  
+  
+{% endblock %}

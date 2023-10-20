@@ -1,0 +1,249 @@
+{% extends "base.html" %} {% block title %}Italian Quiz{% endblock %} {% block content %}
+<!-- Copy the content from the Italian quiz app -->
+
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
+    margin: 0;
+  }
+  .container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  .question {
+    margin-bottom: 10px;
+    display: none;
+  }
+  .question.active {
+    display: block;
+  }
+  .answers {
+    margin-bottom: 20px;
+  }
+  .answers input {
+    margin-right: 10px;
+  }
+  .results {
+    margin-top: 20px;
+  }
+  .btn {
+    padding: 10px 20px;
+    background-color: #28a745;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+</style>
+
+
+
+<a href="http://www.practicelanguage.io">practicelanguage.io</a>
+<div class="container">
+    <h1>{{ language_name }} Language Quiz</h1>
+
+  
+    <!-- quiz.html -->
+    {% for q in questions %}
+    <div class="question {% if loop.first %}active{% endif %}" id="question{{ loop.index }}">
+        <p>{{ q.question_text }}</p>
+        <div class="answers">
+            <label>
+                <input type="radio" name="q{{ loop.index }}" value="{{ q.shuffled_options[0].label }}"> {{ q.shuffled_options[0].text }}
+            </label><br>
+            <label>
+                <input type="radio" name="q{{ loop.index }}" value="{{ q.shuffled_options[1].label }}"> {{ q.shuffled_options[1].text }}
+            </label><br>
+            <label>
+                <input type="radio" name="q{{ loop.index }}" value="{{ q.shuffled_options[2].label }}"> {{ q.shuffled_options[2].text }}
+            </label><br>
+        </div>
+        {% if not loop.last %}
+        <button class="btn" onclick="nextQuestion({{ loop.index }}, {{ q.id }}, '{{ q.language }}', '{{ q.qtype }}', '{{ q.difficulty }}')">Next</button>
+    {% else %}
+        <!-- Add a Submit button for the last question -->
+        <button class="btn" onclick="nextQuestion({{ 10 }}, {{ q.id }}, '{{ q.language }}', '{{ q.qtype }}', '{{ q.difficulty }}')">Next</button>
+    {% endif %}
+    </div>
+    {% endfor %}
+
+
+
+
+
+  <div class="results" id="results"></div>
+</div>
+
+<script>
+  let correctAnswers = 0;
+  
+
+
+  function nextQuestion(questionNumber, qid, qlang, qtype, difficulty) {
+    
+    let answer = document.querySelector(`input[name="q${questionNumber}"]:checked`);
+    console.log("---------------------------------------------------------------")
+    console.log('Selected answer: ', answer ? answer.value : 'none');  // Debug line
+    console.log(`Question ${questionNumber}, Selected: ${answer ? answer.value : 'none'}`); // Log the answer for debugging
+        
+    let correct = answer && answer.value === 'a';  // 'a' is always the correct answer after the shuffle
+
+    
+    
+    console.log(correct)
+    a = 0;
+    if (correct){
+      a = 1
+    }
+    console.log(a)
+    console.log(qlang)
+
+    console.log("qtype: " + qtype)
+    console.log("difficulty: " + difficulty)
+
+
+    // send POST request to Flask app with answer data
+    fetch('/submit-answer', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            question_id: qid, 
+            user_answer: a, 
+            qlang: qlang, 
+            // additional data as needed
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Answer logged:', data);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+
+
+    // send POST request to Flask app with answer data to aggregated table
+    fetch('/submit-answer-agg', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            question_id: qid, 
+            user_answer: a, 
+            qlang: qlang, 
+            qtype: qtype, 
+            difficulty: difficulty, 
+            // additional data as needed
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Answer logged:', data);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });    
+    
+
+
+    if (correct) correctAnswers++;
+  
+    if (questionNumber === 10) {
+  let feedback = "";
+  if (correctAnswers === 10) {
+    feedback = "Excellent! You got all answers right!";
+  } else if (correctAnswers > 7) {
+    feedback = `Very good! You got ${correctAnswers} out of 10 right.`;
+  } else if (correctAnswers > 4) {
+    feedback = `Good job! You got ${correctAnswers} out of 10 right.`;
+  } else {
+    feedback = `You got ${correctAnswers} out of 10 right. Keep practicing!`;
+  }
+  document.getElementById('results').textContent = feedback;
+
+
+  // ...
+if (questionNumber === 10) {
+    // ...
+    // Create a form dynamically and submit it to save the score
+    let form = document.createElement('form');
+    form.method = 'POST';
+    let input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'score';
+    input.value = correctAnswers;
+    form.appendChild(input);
+    document.body.appendChild(form);
+    form.submit();
+}
+
+
+  
+  // // Navigate to /1002.html after a short delay (e.g., 3 seconds)
+  // setTimeout(() => {
+  //   window.location.href = "1003.html";
+  // }, 3000);
+  // return;
+}
+  
+    let nextQuestionNumber = questionNumber + 1;
+    document.getElementById('question' + questionNumber).classList.remove('active');
+    document.getElementById('question' + nextQuestionNumber).classList.add('active');
+  }
+  
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      let activeQuestion = document.querySelector('.question.active');
+      if (activeQuestion) {
+        let questionNumber = parseInt(activeQuestion.id.replace('question', ''));
+        nextQuestion(questionNumber);
+      }
+    }
+  });
+
+
+
+
+  
+  </script>
+
+
+
+<!-- <div class="score-display">
+  {% if latest_score is not none %}
+      <h3>Your latest score: {{ latest_score }}</h3>
+  {% else %}
+      <h3>You haven't taken the quiz yet.</h3>
+  {% endif %}
+</div> -->
+
+<div class="score-display">
+  <h3>Your total Italian score: {{ user.total_score_it }}</h3>
+</div>
+<div class="score-display">
+  <h3>Your total German score: {{ user.total_score_de }}</h3>
+</div>
+<div class="score-display">
+  <h3>Your total French score: {{ user.total_score_fr }}</h3>
+</div>
+<div class="score-display">
+  <h3>Your total English score: {{ user.total_score_en }}</h3>
+</div>
+<div class="score-display">
+  <h3>Your total Spanish score: {{ user.total_score_es }}</h3>
+</div>
+
+
+
+{% endblock %}

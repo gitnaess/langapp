@@ -1,0 +1,277 @@
+{% extends "base.html" %} {% block title %}German Quiz{% endblock %} {% block content %}
+<!-- Copy the content from the Italian quiz app -->
+
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
+    margin: 0;
+  }
+  .container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  .question {
+    margin-bottom: 10px;
+    display: none;
+  }
+  .question.active {
+    display: block;
+  }
+  .answers {
+    margin-bottom: 20px;
+  }
+  .answers input {
+    margin-right: 10px;
+  }
+  .results {
+    margin-top: 20px;
+  }
+  .btn {
+    padding: 10px 20px;
+    background-color: #28a745;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+</style>
+
+
+
+<a href="http://www.practicelanguage.io">practicelanguage.io</a>
+<div class="container">
+  <h1>German Language Quiz - B1/B2 Level</h1>
+  <!-- Question 1 -->
+  <div class="question active" id="question1">
+    <p>German question abababababababababa:</p>
+    <div class="answers">
+      <label><input type="radio" name="q1" value="a"> lei scriverebbe</label><br>
+      <label><input type="radio" name="q1" value="b"> lei scriveva</label><br>
+      <label><input type="radio" name="q1" value="c"> lei scrivere</label><br>
+    </div>
+    <button class="btn" onclick="nextQuestion(1)">Next</button>
+  </div>
+
+  <!-- Question 2 -->
+  <div class="question" id="question2">
+    <p>Choose the correct translation for "They were eating":</p>
+    <div class="answers">
+      <label><input type="radio" name="q2" value="a"> loro mangiavano</label><br>
+      <label><input type="radio" name="q2" value="b"> loro mangiano</label><br>
+      <label><input type="radio" name="q2" value="c"> loro mangeranno</label><br>
+    </div>
+    <button class="btn" onclick="nextQuestion(2)">Next</button>
+  </div>
+
+  <!-- Question 3 -->
+  <div class="question" id="question3">
+    <p>Choose the correct translation for "I had seen":</p>
+    <div class="answers">
+      <label><input type="radio" name="q3" value="a"> ho visto</label><br>
+      <label><input type="radio" name="q3" value="b"> avevo visto</label><br>
+      <label><input type="radio" name="q3" value="c"> vedrò</label><br>
+    </div>
+    <button class="btn" onclick="nextQuestion(3)">Next</button>
+  </div>
+
+  <!-- Question 4 -->
+  <div class="question" id="question4">
+    <p>Choose the correct future tense of "Parlare (to talk)":</p>
+    <div class="answers">
+      <label><input type="radio" name="q4" value="a"> parlerò</label><br>
+      <label><input type="radio" name="q4" value="b"> parlavo</label><br>
+      <label><input type="radio" name="q4" value="c"> parlato</label><br>
+    </div>
+    <button class="btn" onclick="nextQuestion(4)">Next</button>
+  </div>
+
+  <!-- Question 5 -->
+  <div class="question" id="question5">
+    <p>Choose the correct subjunctive form of "Essere (to be)":</p>
+    <div class="answers">
+      <label><input type="radio" name="q5" value="a"> sia</label><br>
+      <label><input type="radio" name="q5" value="b"> sei</label><br>
+      <label><input type="radio" name="q5" value="c"> sono</label><br>
+    </div>
+    <button class="btn" onclick="nextQuestion(5)">Next</button>
+  </div>
+
+  <!-- Question 6 -->
+  <div class="question" id="question6">
+    <p>Choose the correct translation for "I would have gone":</p>
+    <div class="answers">
+      <label><input type="radio" name="q6" value="a"> sarei andato</label><br>
+      <label><input type="radio" name="q6" value="b"> sono andato</label><br>
+      <label><input type="radio" name="q6" value="c"> andrò</label><br>
+    </div>
+    <button class="btn" onclick="nextQuestion(6)">Next</button>
+  </div>
+
+  <!-- Question 7 -->
+  <div class="question" id="question7">
+    <p>Choose the correct translation for "It's better that he knows":</p>
+    <div class="answers">
+      <label><input type="radio" name="q7" value="a"> è meglio che lui sappia</label><br>
+      <label><input type="radio" name="q7" value="b"> è meglio che lui sa</label><br>
+      <label><input type="radio" name="q7" value="c"> è meglio che lui saprà</label><br>
+    </div>
+    <button class="btn" onclick="nextQuestion(7)">Next</button>
+  </div>
+
+  <!-- Question 8 -->
+  <div class="question" id="question8">
+    <p>Choose the correct translation for "They had worked":</p>
+    <div class="answers">
+      <label><input type="radio" name="q8" value="a"> loro hanno lavorato</label><br>
+      <label><input type="radio" name="q8" value="b"> loro lavoravano</label><br>
+      <label><input type="radio" name="q8" value="c"> loro avevano lavorato</label><br>
+    </div>
+    <button class="btn" onclick="nextQuestion(8)">Next</button>
+  </div>
+
+  <!-- Question 9 -->
+  <div class="question" id="question9">
+    <p>Choose the correct translation for "I could eat":</p>
+    <div class="answers">
+      <label><input type="radio" name="q9" value="a"> potrei mangiare</label><br>
+      <label><input type="radio" name="q9" value="b"> posso mangiare</label><br>
+      <label><input type="radio" name="q9" value="c"> mangerei</label><br>
+    </div>
+    <button class="btn" onclick="nextQuestion(9)">Next</button>
+  </div>
+
+  <!-- Question 10 -->
+  <div class="question" id="question10">
+    <p>Choose the correct translation for "We had been friends":</p>
+    <div class="answers">
+      <label><input type="radio" name="q10" value="a"> siamo stati amici</label><br>
+      <label><input type="radio" name="q10" value="b"> eravamo amici</label><br>
+      <label><input type="radio" name="q10" value="c"> saremo amici</label><br>
+    </div>
+    <button class="btn" onclick="nextQuestion(10)">Next</button>
+  </div>
+
+  <div class="results" id="results"></div>
+</div>
+<script>
+  let correctAnswers = 0;
+  
+  function nextQuestion(questionNumber) {
+    let answer = "";
+    let correct = false;
+  
+    if (questionNumber === 0) {
+      answer = document.querySelector('input[name="q0"]:checked');
+      correct = answer && answer.value === 'b';
+    } else if (questionNumber === 1) {
+      answer = document.querySelector('input[name="q1"]:checked');
+      correct = answer && answer.value === 'b';
+    } else if (questionNumber === 2) {
+      answer = document.querySelector('input[name="q2"]:checked');
+      correct = answer && answer.value === 'b';
+    } else if (questionNumber === 3) {
+      answer = document.querySelector('input[name="q3"]:checked');
+      correct = answer && answer.value === 'b';
+    } else if (questionNumber === 4) {
+      answer = document.querySelector('input[name="q4"]:checked');
+      correct = answer && answer.value === 'b';
+    } else if (questionNumber === 5) {
+      answer = document.querySelector('input[name="q5"]:checked');
+      correct = answer && answer.value === 'b';
+    } else if (questionNumber === 6) {
+      answer = document.querySelector('input[name="q6"]:checked');
+      correct = answer && answer.value === 'b';
+    } else if (questionNumber === 7) {
+      answer = document.querySelector('input[name="q7"]:checked');
+      correct = answer && answer.value === 'b';
+    } else if (questionNumber === 8) {
+      answer = document.querySelector('input[name="q8"]:checked');
+      correct = answer && answer.value === 'b';
+    } else if (questionNumber === 9) {
+      answer = document.querySelector('input[name="q9"]:checked');
+      correct = answer && answer.value === 'b';
+    } else if (questionNumber === 10) {
+      answer = document.querySelector('input[name="q10"]:checked');
+      correct = answer && answer.value === 'b';
+    }
+    if (correct) correctAnswers++;
+  
+    if (questionNumber === 10) {
+  let feedback = "";
+  if (correctAnswers === 10) {
+    feedback = "Excellent! You got all answers right!";
+  } else if (correctAnswers > 7) {
+    feedback = `Very good! You got ${correctAnswers} out of 10 right.`;
+  } else if (correctAnswers > 4) {
+    feedback = `Good job! You got ${correctAnswers} out of 10 right.`;
+  } else {
+    feedback = `You got ${correctAnswers} out of 10 right. Keep practicing!`;
+  }
+  document.getElementById('results').textContent = feedback;
+
+
+  // ...
+if (questionNumber === 10) {
+    // ...
+    // Create a form dynamically and submit it to save the score
+    let form = document.createElement('form');
+    form.method = 'POST';
+    let input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'score';
+    input.value = correctAnswers;
+    form.appendChild(input);
+    document.body.appendChild(form);
+    form.submit();
+}
+
+
+  
+  // // Navigate to /1002.html after a short delay (e.g., 3 seconds)
+  // setTimeout(() => {
+  //   window.location.href = "1003.html";
+  // }, 3000);
+  // return;
+}
+  
+    let nextQuestionNumber = questionNumber + 1;
+    document.getElementById('question' + questionNumber).classList.remove('active');
+    document.getElementById('question' + nextQuestionNumber).classList.add('active');
+  }
+  
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      let activeQuestion = document.querySelector('.question.active');
+      if (activeQuestion) {
+        let questionNumber = parseInt(activeQuestion.id.replace('question', ''));
+        nextQuestion(questionNumber);
+      }
+    }
+  });
+  </script>
+
+
+
+<!-- <div class="score-display">
+  {% if latest_score is not none %}
+      <h3>Your latest score: {{ latest_score }}</h3>
+  {% else %}
+      <h3>You haven't taken the quiz yet.</h3>
+  {% endif %}
+</div> -->
+
+<div class="score-display">
+  <h3>Your total score: {{ user.total_score_de }}</h3>
+</div>
+
+
+
+{% endblock %}
