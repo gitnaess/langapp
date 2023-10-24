@@ -1,16 +1,26 @@
+import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from os import path
 from flask_login import LoginManager
 
-db = SQLAlchemy()
-DB_NAME = "database.db"
+# Check if running on PythonAnywhere
+ON_PYTHONANYWHERE = 'PYTHONANYWHERE_DOMAIN' in os.environ
 
+# Configuration depending on the environment
+if ON_PYTHONANYWHERE:
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    DB_NAME = os.path.join(BASE_DIR, 'instance', 'database.db')
+else:
+    DB_NAME = "database.db"
+
+db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'hjshjhdjah kjshkjdhjs'
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
+
     db.init_app(app)
 
     from .views import views
@@ -20,7 +30,7 @@ def create_app():
     app.register_blueprint(auth, url_prefix='/')
 
     from .models import User, Note
-    
+
     with app.app_context():
         db.create_all()
 
@@ -34,8 +44,8 @@ def create_app():
 
     return app
 
-
 def create_database(app):
-    if not path.exists('website/' + DB_NAME):
+    if not path.exists(DB_NAME):
         db.create_all(app=app)
         print('Created Database!')
+

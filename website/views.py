@@ -24,6 +24,14 @@ def home():
     it_sub_sco = 0
     it_pas_sco = 0
 
+    de_imp_sco = 0
+    de_fut_sco = 0
+    de_cond_sco = 0
+    de_imt_sco = 0
+    de_sub_sco = 0
+    de_pas_sco = 0
+
+
     it_imp_tot = db.session.query(func.sum(Answeredagg.icount)).filter_by(user_id=current_user.id, qlang="it", qtype="imperfect").scalar()
     it_imp_cor = db.session.query(func.sum(Answeredagg.icountcorrect)).filter_by(user_id=current_user.id, qlang="it", qtype="imperfect").scalar()
     if it_imp_tot != None:
@@ -57,13 +65,54 @@ def home():
     if it_sub_tot != None:
        it_sub_sco = it_sub_tot / 5 + it_sub_cor
 
+
+
+    de_imp_tot = db.session.query(func.sum(Answeredagg.icount)).filter_by(user_id=current_user.id, qlang="de", qtype="imperfect").scalar()
+    de_imp_cor = db.session.query(func.sum(Answeredagg.icountcorrect)).filter_by(user_id=current_user.id, qlang="de", qtype="imperfect").scalar()
+    if de_imp_tot != None:
+       de_imp_sco = de_imp_tot / 5 + de_imp_cor
+
+    de_cond_tot = db.session.query(func.sum(Answeredagg.icount)).filter_by(user_id=current_user.id, qlang="de", qtype="conddeional").scalar()
+    de_cond_cor = db.session.query(func.sum(Answeredagg.icountcorrect)).filter_by(user_id=current_user.id, qlang="de", qtype="conddeional").scalar()
+    if de_cond_tot != None:
+       de_cond_sco = de_cond_tot / 5 + de_cond_cor
+
+    de_fut_tot = db.session.query(func.sum(Answeredagg.icount)).filter_by(user_id=current_user.id, qlang="de", qtype="future").scalar()
+    de_fut_cor = db.session.query(func.sum(Answeredagg.icountcorrect)).filter_by(user_id=current_user.id, qlang="de", qtype="future").scalar()
+    if de_fut_tot != None:
+       de_fut_sco = de_fut_tot / 5 + de_fut_cor
+
+
+    de_pas_tot = db.session.query(func.sum(Answeredagg.icount)).filter_by(user_id=current_user.id, qlang="de", qtype="passato prossimo").scalar()
+    de_pas_cor = db.session.query(func.sum(Answeredagg.icountcorrect)).filter_by(user_id=current_user.id, qlang="de", qtype="passato prossimo").scalar()
+    if de_pas_tot != None:
+       de_pas_sco = de_pas_tot / 5 + de_pas_cor
+
+
+    de_imt_tot = db.session.query(func.sum(Answeredagg.icount)).filter_by(user_id=current_user.id, qlang="de", qtype="imperativo").scalar()
+    de_imt_cor = db.session.query(func.sum(Answeredagg.icountcorrect)).filter_by(user_id=current_user.id, qlang="de", qtype="imperativo").scalar()
+    if de_imt_tot != None:
+       de_imt_sco = de_imt_tot / 5 + de_imt_cor
+
+
+    de_sub_tot = db.session.query(func.sum(Answeredagg.icount)).filter_by(user_id=current_user.id, qlang="de", qtype="subjunctive").scalar()
+    de_sub_cor = db.session.query(func.sum(Answeredagg.icountcorrect)).filter_by(user_id=current_user.id, qlang="de", qtype="subjunctive").scalar()
+    if de_sub_tot != None:
+       de_sub_sco = de_sub_tot / 5 + de_sub_cor
+
     return render_template("home.html", user=current_user, user_answer_data=user_answer_data, 
                            it_imp_tot=it_imp_tot, it_imp_cor=it_imp_cor, it_imp_sco=it_imp_sco,
                            it_fut_tot=it_fut_tot, it_fut_cor=it_fut_cor, it_fut_sco=it_fut_sco,
                            it_sub_tot=it_sub_tot, it_sub_cor=it_sub_cor, it_sub_sco=it_sub_sco,
                            it_imt_tot=it_imt_tot, it_imt_cor=it_imt_cor, it_imt_sco=it_imt_sco,
                            it_pas_tot=it_pas_tot, it_pas_cor=it_pas_cor, it_pas_sco=it_pas_sco,
-                           it_cond_tot=it_cond_tot, it_cond_cor=it_cond_cor, it_cond_sco=it_cond_sco
+                           it_cond_tot=it_cond_tot, it_cond_cor=it_cond_cor, it_cond_sco=it_cond_sco,
+                           de_imp_tot=de_imp_tot, de_imp_cor=de_imp_cor, de_imp_sco=de_imp_sco,
+                           de_fut_tot=de_fut_tot, de_fut_cor=de_fut_cor, de_fut_sco=de_fut_sco,
+                           de_sub_tot=de_sub_tot, de_sub_cor=de_sub_cor, de_sub_sco=de_sub_sco,
+                           de_imt_tot=de_imt_tot, de_imt_cor=de_imt_cor, de_imt_sco=de_imt_sco,
+                           de_pas_tot=de_pas_tot, de_pas_cor=de_pas_cor, de_pas_sco=de_pas_sco,
+                           de_cond_tot=de_cond_tot, de_cond_cor=de_cond_cor, de_cond_sco=de_cond_sco                           
                            )
     
 
@@ -222,3 +271,12 @@ def submit_answer_agg():
     db.session.commit()
     
     return jsonify(success=True)
+
+
+@views.route('/start_quiz/<language>')
+@login_required
+def start_quiz(language):
+    # Set the language in the session
+    session['language'] = language
+    # Redirect to the quiz page for the selected language
+    return redirect(url_for('views.quiz'))

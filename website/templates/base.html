@@ -25,10 +25,22 @@
       .language-buttons {
         display: flex;
         justify-content: space-around;
+        
       }
       .language-buttons form {
         margin-right: 5px; /* Optional: To ensure some spacing between the buttons */
       }
+
+
+      .language-buttons-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap; /* wrap the buttons if the container becomes too small */
+}
+
+.language-buttons-container > button {
+  margin: 5px; /* Apply margin around each button */
+}
     
     
         /* ... flexbox ... */
