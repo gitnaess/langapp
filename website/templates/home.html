@@ -1,4 +1,30 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %} {% block content %}
+
+{% block styles %}
+<style>
+    /* Default styles: three boxes side by side */
+    .tenses-container {
+        display: flex;
+        justify-content: space-between;
+    }
+    .tense-section {
+        flex: 1;
+        margin: 10px;  /* optional, just for spacing */
+    }
+
+    /* Media query for small screens: boxes on top of each other */
+    @media (max-width: 767px) {
+        .tenses-container {
+            flex-direction: column;
+        }
+        .tense-section {
+            margin: 10px 0;  /* adjust for vertical stacking */
+        }
+    }
+</style>
+{% endblock %}
+
+
 <h1 align="center">Practice Languages</h1>
 
 
