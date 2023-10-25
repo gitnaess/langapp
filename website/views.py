@@ -160,6 +160,78 @@ def home():
        fr_sub_sco = fr_sub_tot / 5 + fr_sub_cor
 
 
+# english
+
+    en_imp_tot = db.session.query(func.sum(Answeredagg.icount)).filter_by(user_id=current_user.id, qlang="en", qtype="imperfect").scalar()
+    en_imp_cor = db.session.query(func.sum(Answeredagg.icountcorrect)).filter_by(user_id=current_user.id, qlang="en", qtype="imperfect").scalar()
+    if en_imp_tot != None:
+       en_imp_sco = en_imp_tot / 5 + en_imp_cor
+
+    en_con_tot = db.session.query(func.sum(Answeredagg.icount)).filter_by(user_id=current_user.id, qlang="en", qtype="conditional").scalar()
+    en_con_cor = db.session.query(func.sum(Answeredagg.icountcorrect)).filter_by(user_id=current_user.id, qlang="en", qtype="conditional").scalar()
+    if en_con_tot != None:
+       en_cond_sco = en_con_tot / 5 + en_con_cor
+
+    en_fut_tot = db.session.query(func.sum(Answeredagg.icount)).filter_by(user_id=current_user.id, qlang="en", qtype="future").scalar()
+    en_fut_cor = db.session.query(func.sum(Answeredagg.icountcorrect)).filter_by(user_id=current_user.id, qlang="en", qtype="future").scalar()
+    if en_fut_tot != None:
+       en_fut_sco = en_fut_tot / 5 + en_fut_cor
+
+
+    en_pas_tot = db.session.query(func.sum(Answeredagg.icount)).filter_by(user_id=current_user.id, qlang="en", qtype="passato prossimo").scalar()
+    en_pas_cor = db.session.query(func.sum(Answeredagg.icountcorrect)).filter_by(user_id=current_user.id, qlang="en", qtype="passato prossimo").scalar()
+    if en_pas_tot != None:
+       en_pas_sco = en_pas_tot / 5 + en_pas_cor
+
+
+    en_imt_tot = db.session.query(func.sum(Answeredagg.icount)).filter_by(user_id=current_user.id, qlang="en", qtype="imperativo").scalar()
+    en_imt_cor = db.session.query(func.sum(Answeredagg.icountcorrect)).filter_by(user_id=current_user.id, qlang="en", qtype="imperativo").scalar()
+    if en_imt_tot != None:
+       en_imt_sco = en_imt_tot / 5 + en_imt_cor
+
+
+    en_sub_tot = db.session.query(func.sum(Answeredagg.icount)).filter_by(user_id=current_user.id, qlang="en", qtype="subjunctive").scalar()
+    en_sub_cor = db.session.query(func.sum(Answeredagg.icountcorrect)).filter_by(user_id=current_user.id, qlang="en", qtype="subjunctive").scalar()
+    if en_sub_tot != None:
+       en_sub_sco = en_sub_tot / 5 + en_sub_cor
+
+
+# spanish
+
+    es_imp_tot = db.session.query(func.sum(Answeredagg.icount)).filter_by(user_id=current_user.id, qlang="es", qtype="imperfect").scalar()
+    es_imp_cor = db.session.query(func.sum(Answeredagg.icountcorrect)).filter_by(user_id=current_user.id, qlang="es", qtype="imperfect").scalar()
+    if es_imp_tot != None:
+       es_imp_sco = es_imp_tot / 5 + es_imp_cor
+
+    es_con_tot = db.session.query(func.sum(Answeredagg.icount)).filter_by(user_id=current_user.id, qlang="es", qtype="conditional").scalar()
+    es_con_cor = db.session.query(func.sum(Answeredagg.icountcorrect)).filter_by(user_id=current_user.id, qlang="es", qtype="conditional").scalar()
+    if es_con_tot != None:
+       es_cond_sco = es_con_tot / 5 + es_con_cor
+
+    es_fut_tot = db.session.query(func.sum(Answeredagg.icount)).filter_by(user_id=current_user.id, qlang="es", qtype="future").scalar()
+    es_fut_cor = db.session.query(func.sum(Answeredagg.icountcorrect)).filter_by(user_id=current_user.id, qlang="es", qtype="future").scalar()
+    if es_fut_tot != None:
+       es_fut_sco = es_fut_tot / 5 + es_fut_cor
+
+
+    es_pas_tot = db.session.query(func.sum(Answeredagg.icount)).filter_by(user_id=current_user.id, qlang="es", qtype="passato prossimo").scalar()
+    es_pas_cor = db.session.query(func.sum(Answeredagg.icountcorrect)).filter_by(user_id=current_user.id, qlang="es", qtype="passato prossimo").scalar()
+    if es_pas_tot != None:
+       es_pas_sco = es_pas_tot / 5 + es_pas_cor
+
+
+    es_imt_tot = db.session.query(func.sum(Answeredagg.icount)).filter_by(user_id=current_user.id, qlang="es", qtype="imperativo").scalar()
+    es_imt_cor = db.session.query(func.sum(Answeredagg.icountcorrect)).filter_by(user_id=current_user.id, qlang="es", qtype="imperativo").scalar()
+    if es_imt_tot != None:
+       es_imt_sco = es_imt_tot / 5 + es_imt_cor
+
+
+    es_sub_tot = db.session.query(func.sum(Answeredagg.icount)).filter_by(user_id=current_user.id, qlang="es", qtype="subjunctive").scalar()
+    es_sub_cor = db.session.query(func.sum(Answeredagg.icountcorrect)).filter_by(user_id=current_user.id, qlang="es", qtype="subjunctive").scalar()
+    if es_sub_tot != None:
+       es_sub_sco = es_sub_tot / 5 + es_sub_cor
+
+       
     return render_template("home.html", user=current_user, user_answer_data=user_answer_data, 
                            it_imp_tot=it_imp_tot, it_imp_cor=it_imp_cor, it_imp_sco=it_imp_sco,
                            it_fut_tot=it_fut_tot, it_fut_cor=it_fut_cor, it_fut_sco=it_fut_sco,
@@ -178,7 +250,19 @@ def home():
                            fr_sub_tot=fr_sub_tot, fr_sub_cor=fr_sub_cor, fr_sub_sco=fr_sub_sco,
                            fr_imt_tot=fr_imt_tot, fr_imt_cor=fr_imt_cor, fr_imt_sco=fr_imt_sco,
                            fr_pas_tot=fr_pas_tot, fr_pas_cor=fr_pas_cor, fr_pas_sco=fr_pas_sco,
-                           fr_con_tot=fr_con_tot, fr_con_cor=fr_con_cor, fr_con_sco=fr_con_sco
+                           fr_con_tot=fr_con_tot, fr_con_cor=fr_con_cor, fr_con_sco=fr_con_sco,
+                           en_imp_tot=en_imp_tot, en_imp_cor=en_imp_cor, en_imp_sco=en_imp_sco,
+                           en_fut_tot=en_fut_tot, en_fut_cor=en_fut_cor, en_fut_sco=en_fut_sco,
+                           en_sub_tot=en_sub_tot, en_sub_cor=en_sub_cor, en_sub_sco=en_sub_sco,
+                           en_imt_tot=en_imt_tot, en_imt_cor=en_imt_cor, en_imt_sco=en_imt_sco,
+                           en_pas_tot=en_pas_tot, en_pas_cor=en_pas_cor, en_pas_sco=en_pas_sco,
+                           en_con_tot=en_con_tot, en_con_cor=en_con_cor, en_con_sco=en_con_sco,
+                           es_imp_tot=es_imp_tot, es_imp_cor=es_imp_cor, es_imp_sco=es_imp_sco,
+                           es_fut_tot=es_fut_tot, es_fut_cor=es_fut_cor, es_fut_sco=es_fut_sco,
+                           es_sub_tot=es_sub_tot, es_sub_cor=es_sub_cor, es_sub_sco=es_sub_sco,
+                           es_imt_tot=es_imt_tot, es_imt_cor=es_imt_cor, es_imt_sco=es_imt_sco,
+                           es_pas_tot=es_pas_tot, es_pas_cor=es_pas_cor, es_pas_sco=es_pas_sco,
+                           es_con_tot=es_con_tot, es_con_cor=es_con_cor, es_con_sco=es_con_sco  
                            )
     
 
