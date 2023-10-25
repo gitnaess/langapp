@@ -39,22 +39,13 @@
   <button onclick="startQuiz()" class="btn btn-success">Start Quiz</button>
 </div>
 
-
-
-
-
-
 <br>
 <br>
 <br>
 <br>
-
 
 
 <!-- Language Data Sections -->
-
-
-
 
 <div id="it-data" class="language-data" style="display:none;">
   <!-- Italian data content -->
@@ -118,7 +109,6 @@
     Subjunctive mood is difficult, but you'le love it, when first you master it.
   </div>
 </div>
-
 </div>
 
 
@@ -184,74 +174,73 @@
     Subjunctive mood is difficult, but you'le love de, when first you master de.
   </div>
 </div>
-
 </div>
 
 
-<div id="xx-data" class="language-data" style="display:none;">
-  <!-- German data content -->
 
-  <br><h4>German</h4><br>
+<div id="fr-data" class="language-data" style="display:none;">
+  <!-- French data content -->
+
+  <br><h4>French</h4><br>
 
 <div class="tenses-container">
   <div class="tense-section">
-    <h5>Imperfect</h5>
-    {{ it_imp_cor }} correct answers.
+    <h5>Präteritum</h5>
+    {{ fr_imp_cor }} correct answers.
     <div class="progress" style="height: 30px; width: 200px;">
-      <div class="progress-bar" role="progressbar" aria-valuenow="{{ it_imp_sco }}" aria-valuemin="0" aria-valuemax="100"></div>
+      <div class="progress-bar" role="progressbar" aria-valuenow="{{ fr_imp_sco }}" aria-valuemin="0" aria-valuemax="100"></div>
     </div>
     Good progress lately. Still some errors here and there, but lately you've improved your rate of correct answers.
   </div>
 
   <div class="tense-section">
-    <h5>Passato prossimo</h5>
-    {{ it_pas_cor }} correct answers.
+    <h5>Perfekt</h5>
+    {{ fr_pas_cor }} correct answers.
     <div class="progress" style="height: 30px; width: 200px;">
-      <div class="progress-bar" role="progressbar" aria-valuenow="{{ it_pas_sco }}" aria-valuemin="0" aria-valuemax="100"></div>
+      <div class="progress-bar" role="progressbar" aria-valuenow="{{ fr_pas_sco }}" aria-valuemin="0" aria-valuemax="100"></div>
     </div>
     Good work on the passato prossimo lately. More adventures to come!
   </div>
 
   <div class="tense-section">
-    <h5>Future</h5>
-    {{ it_fut_cor }} correct answers.
+    <h5>Futur</h5>
+    {{ fr_fut_cor }} correct answers.
     <div class="progress" style="height: 30px; width: 200px;">
-      <div class="progress-bar" role="progressbar" aria-valuenow="{{ it_fut_sco }}" aria-valuemin="0" aria-valuemax="100"></div>
+      <div class="progress-bar" role="progressbar" aria-valuenow="{{ fr_fut_sco }}" aria-valuemin="0" aria-valuemax="100"></div>
     </div>
-    You are absolutely crushing it with the future tense in level one. Time to move on to level two, so in the coming quizzes you'll be seeing more advanced future tense sentences coming your way!
+    You are absolutely crushing de wdeh the future tense in level one. Time to move on to level two, so in the coming quizzes you'll be seeing more advanced future tense sentences coming your way!
   </div>
 </div>
 
 <div class="tenses-container">
   <div class="tense-section">
-    <h5>Imperative</h5>
-    {{ it_imt_cor }} correct answers.
+    <h5>Plusquamperfekt</h5>
+    {{ fr_imt_cor }} correct answers.
     <div class="progress" style="height: 30px; width: 200px;">
-      <div class="progress-bar" role="progressbar" aria-valuenow="{{ it_imt_sco }}" aria-valuemin="0" aria-valuemax="100"></div>
+      <div class="progress-bar" role="progressbar" aria-valuenow="{{ fr_imt_sco }}" aria-valuemin="0" aria-valuemax="100"></div>
     </div>
     You still have a lot to learn of the imperative.
   </div>
 
   <div class="tense-section">
-    <h5>Conditional</h5>
-    {{ it_cond_cor }} correct answers.
+    <h5>Konjunktiv</h5>
+    {{ fr_cond_cor }} correct answers.
     <div class="progress" style="height: 30px; width: 200px;">
-      <div class="progress-bar" role="progressbar" aria-valuenow="{{ it_cond_sco }}" aria-valuemin="0" aria-valuemax="100"></div>
+      <div class="progress-bar" role="progressbar" aria-valuenow="{{ fr_cond_sco }}" aria-valuemin="0" aria-valuemax="100"></div>
     </div>
-    You're not crushing it with conditional. It's okay - it's an advanced feature. But you do have some correct answers, and could soon master this mood.
+    You're not crushing de wdeh conddeional. de's okay - de's an advanced feature. But you do have some correct answers, and could soon master this mood.
   </div>
 
   <div class="tense-section">
-    <h5>Subjunctive</h5>
-    {{ it_sub_cor }} correct answers.
+    <h5>Imperativ</h5>
+    {{ fr_sub_cor }} correct answers.
     <div class="progress" style="height: 30px; width: 200px;">
-      <div class="progress-bar" role="progressbar" aria-valuenow="{{ it_sub_sco }}" aria-valuemin="0" aria-valuemax="100"></div>
+      <div class="progress-bar" role="progressbar" aria-valuenow="{{ fr_sub_sco }}" aria-valuemin="0" aria-valuemax="100"></div>
     </div>
-    Subjunctive mood is difficult, but you'le love it, when first you master it.
+    Subjunctive mood is difficult, but you'le love de, when first you master de.
   </div>
 </div>
-
-</div>
+</div>                      
 
 
 
@@ -311,10 +300,10 @@
 
 </script>
 
-<script>
+<!-- <script>
 document.addEventListener("DOMContentLoaded", function() {
     showData('it'); // Showing data for English when the page loads.
-});
+}); -->
 
 
 </script>
