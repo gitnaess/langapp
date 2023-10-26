@@ -62,7 +62,7 @@ def home():
     it_con_tot = db.session.query(func.sum(Answeredagg.icount)).filter_by(user_id=current_user.id, qlang="it", qtype="conditional").scalar()
     it_con_cor = db.session.query(func.sum(Answeredagg.icountcorrect)).filter_by(user_id=current_user.id, qlang="it", qtype="conditional").scalar()
     if it_con_tot != None:
-       it_cond_sco = it_con_tot / 5 + it_con_cor
+       it_con_sco = it_con_tot / 5 + it_con_cor
 
     it_fut_tot = db.session.query(func.sum(Answeredagg.icount)).filter_by(user_id=current_user.id, qlang="it", qtype="future").scalar()
     it_fut_cor = db.session.query(func.sum(Answeredagg.icountcorrect)).filter_by(user_id=current_user.id, qlang="it", qtype="future").scalar()
@@ -95,8 +95,8 @@ def home():
     if de_imp_tot != None:
        de_imp_sco = de_imp_tot / 5 + de_imp_cor
 
-    de_con_tot = db.session.query(func.sum(Answeredagg.icount)).filter_by(user_id=current_user.id, qlang="de", qtype="conddeional").scalar()
-    de_con_cor = db.session.query(func.sum(Answeredagg.icountcorrect)).filter_by(user_id=current_user.id, qlang="de", qtype="conddeional").scalar()
+    de_con_tot = db.session.query(func.sum(Answeredagg.icount)).filter_by(user_id=current_user.id, qlang="de", qtype="conditional").scalar()
+    de_con_cor = db.session.query(func.sum(Answeredagg.icountcorrect)).filter_by(user_id=current_user.id, qlang="de", qtype="conditional").scalar()
     if de_con_tot != None:
        de_con_sco = de_con_tot / 5 + de_con_cor
 
@@ -134,7 +134,7 @@ def home():
     fr_con_tot = db.session.query(func.sum(Answeredagg.icount)).filter_by(user_id=current_user.id, qlang="fr", qtype="conditional").scalar()
     fr_con_cor = db.session.query(func.sum(Answeredagg.icountcorrect)).filter_by(user_id=current_user.id, qlang="fr", qtype="conditional").scalar()
     if fr_con_tot != None:
-       fr_cond_sco = fr_con_tot / 5 + fr_con_cor
+       fr_con_sco = fr_con_tot / 5 + fr_con_cor
 
     fr_fut_tot = db.session.query(func.sum(Answeredagg.icount)).filter_by(user_id=current_user.id, qlang="fr", qtype="future").scalar()
     fr_fut_cor = db.session.query(func.sum(Answeredagg.icountcorrect)).filter_by(user_id=current_user.id, qlang="fr", qtype="future").scalar()
@@ -170,7 +170,7 @@ def home():
     en_con_tot = db.session.query(func.sum(Answeredagg.icount)).filter_by(user_id=current_user.id, qlang="en", qtype="conditional").scalar()
     en_con_cor = db.session.query(func.sum(Answeredagg.icountcorrect)).filter_by(user_id=current_user.id, qlang="en", qtype="conditional").scalar()
     if en_con_tot != None:
-       en_cond_sco = en_con_tot / 5 + en_con_cor
+       en_con_sco = en_con_tot / 5 + en_con_cor
 
     en_fut_tot = db.session.query(func.sum(Answeredagg.icount)).filter_by(user_id=current_user.id, qlang="en", qtype="future").scalar()
     en_fut_cor = db.session.query(func.sum(Answeredagg.icountcorrect)).filter_by(user_id=current_user.id, qlang="en", qtype="future").scalar()
@@ -206,7 +206,7 @@ def home():
     es_con_tot = db.session.query(func.sum(Answeredagg.icount)).filter_by(user_id=current_user.id, qlang="es", qtype="conditional").scalar()
     es_con_cor = db.session.query(func.sum(Answeredagg.icountcorrect)).filter_by(user_id=current_user.id, qlang="es", qtype="conditional").scalar()
     if es_con_tot != None:
-       es_cond_sco = es_con_tot / 5 + es_con_cor
+       es_con_sco = es_con_tot / 5 + es_con_cor
 
     es_fut_tot = db.session.query(func.sum(Answeredagg.icount)).filter_by(user_id=current_user.id, qlang="es", qtype="future").scalar()
     es_fut_cor = db.session.query(func.sum(Answeredagg.icountcorrect)).filter_by(user_id=current_user.id, qlang="es", qtype="future").scalar()
