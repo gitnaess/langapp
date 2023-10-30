@@ -1,0 +1,74 @@
+{% extends "base.html" %} {% block title %}Get premium!{% endblock %} {% block content
+%}
+
+
+
+<form action="/charge" method="post" id="payment-form">
+    <div class="form-row">
+        <label for="card-element">Credit or debit card</label>
+        <div id="card-element">
+            <!-- A Stripe Element will be inserted here. -->
+        </div>
+
+        <!-- Used to display form errors. -->
+        <div id="card-errors" role="alert"></div>
+    </div>
+
+    <button type="submit">Submit Payment</button>
+</form>
+
+<script>
+    var stripe = Stripe('YOUR_PUBLIC_KEY');  // Use your Stripe public key here
+    var elements = stripe.elements();
+
+    var card = elements.create('card');
+    card.mount('#card-element');
+
+    card.addEventListener('change', function(event) {
+        var displayError = document.getElementById('card-errors');
+        if (event.error) {
+            displayError.textContent = event.error.message;
+        } else {
+            displayError.textContent = '';
+        }
+    });
+
+    var form = document.getElementById('payment-form');
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        stripe.createToken(card).then(function(result) {
+            if (result.error) {
+                var errorElement = document.getElementById('card-errors');
+                errorElement.textContent = result.error.message;
+            } else {
+                stripeTokenHandler(result.token);
+            }
+        });
+    });
+
+    function stripeTokenHandler(token) {
+        var form = document.getElementById('payment-form');
+        var hiddenInput = document.createElement('input');
+        hiddenInput.setAttribute('type', 'hidden');
+        hiddenInput.setAttribute('name', 'stripeToken');
+        hiddenInput.setAttribute('value', token.id);
+        form.appendChild(hiddenInput);
+
+        form.submit();
+    }
+</script>
+
+<script async
+  src="https://js.stripe.com/v3/buy-button.js">
+</script>
+
+<stripe-buy-button
+  buy-button-id="buy_btn_1O5PQIJPFYSkl1U1OJ1mm3VS"
+  publishable-key="pk_live_4ebD6S3QLCVU2VlpJxLgDIqd"
+>
+</stripe-buy-button>
+
+{% endblock %}
+
+

@@ -52,7 +52,8 @@
     <!-- quiz.html -->
     {% for q in questions %}
     <div class="question {% if loop.first %}active{% endif %}" id="question{{ loop.index }}">
-        <p>{{ q.question_text }}</p>
+      <p style="color:grey;font-style:italic">{{ q.qtype }}</p>  
+      <p>{{ q.question_text }}</p>
         <div class="answers">
             <label>
                 <input type="radio" name="q{{ loop.index }}" value="{{ q.shuffled_options[0].label }}"> {{ q.shuffled_options[0].text }}
@@ -71,6 +72,7 @@
         <button class="btn" onclick="nextQuestion({{ 10 }}, {{ q.id }}, '{{ q.language }}', '{{ q.qtype }}', '{{ q.difficulty }}')">Next</button>
     {% endif %}
     </div>
+        
     {% endfor %}
 
 

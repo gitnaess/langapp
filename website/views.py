@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, flash, jsonify, redirect, url_for
+from flask import Blueprint, render_template, request, flash, jsonify, redirect, url_for,current_app
 from flask_login import login_required, current_user
 from .models import Question, Note, QuizResult, Answered, Answeredagg  # Import QuizResult along with Note
 from . import db
@@ -6,7 +6,7 @@ import json
 import random
 from flask import session
 from sqlalchemy import func
-
+import stripe
 
 views = Blueprint('views', __name__)
 
@@ -58,11 +58,27 @@ def home():
     it_imp_cor = db.session.query(func.sum(Answeredagg.icountcorrect)).filter_by(user_id=current_user.id, qlang="it", qtype="imperfect").scalar()
     if it_imp_tot != None:
        it_imp_sco = it_imp_tot / 5 + it_imp_cor
+    if it_imp_cor < 10:
+        it_imp_abc = "Just getting started"
+    elif it_imp_cor < 20:
+        it_imp_abc = "Hey, this is not bad"
+    elif it_imp_cor < 50:
+        it_imp_abc = "Still some way to go"
+    elif it_imp_cor < 90:
+        it_imp_abc = "Closer to the goal every day"
 
     it_con_tot = db.session.query(func.sum(Answeredagg.icount)).filter_by(user_id=current_user.id, qlang="it", qtype="conditional").scalar()
     it_con_cor = db.session.query(func.sum(Answeredagg.icountcorrect)).filter_by(user_id=current_user.id, qlang="it", qtype="conditional").scalar()
     if it_con_tot != None:
        it_con_sco = it_con_tot / 5 + it_con_cor
+    if it_con_cor < 10:
+        it_con_abc = "Just getting started"
+    elif it_con_cor < 20:
+        it_con_abc = "Hey, this is not bad"
+    elif it_con_cor < 50:
+        it_con_abc = "Still some way to go"
+    elif it_con_cor < 90:
+        it_con_abc = "Closer to the goal every day"       
 
     it_fut_tot = db.session.query(func.sum(Answeredagg.icount)).filter_by(user_id=current_user.id, qlang="it", qtype="future").scalar()
     it_fut_cor = db.session.query(func.sum(Answeredagg.icountcorrect)).filter_by(user_id=current_user.id, qlang="it", qtype="future").scalar()
@@ -262,7 +278,8 @@ def home():
                            es_sub_tot=es_sub_tot, es_sub_cor=es_sub_cor, es_sub_sco=es_sub_sco,
                            es_imt_tot=es_imt_tot, es_imt_cor=es_imt_cor, es_imt_sco=es_imt_sco,
                            es_pas_tot=es_pas_tot, es_pas_cor=es_pas_cor, es_pas_sco=es_pas_sco,
-                           es_con_tot=es_con_tot, es_con_cor=es_con_cor, es_con_sco=es_con_sco  
+                           es_con_tot=es_con_tot, es_con_cor=es_con_cor, es_con_sco=es_con_sco,
+                           it_imp_abc=it_imp_abc, it_con_abc=it_con_abc
                            )
     
 
@@ -430,3 +447,98 @@ def start_quiz(language):
     session['language'] = language
     # Redirect to the quiz page for the selected language
     return redirect(url_for('views.quiz'))
+
+
+
+
+
+@views.route('/start-payment', methods=['POST'])
+def start_payment():
+    session = stripe.checkout.Session.create(
+        payment_method_types=['card'],
+        line_items=[{
+            'price_data': {
+                'currency': 'usd',
+                'product_data': {
+                    'name': 'Premium Subscription',
+                },
+                'unit_amount': 999,  # This represents $9.99
+            },
+            'quantity': 1,
+        }],
+        mode='payment',
+        success_url=url_for('payment_success', _external=True),
+        cancel_url=url_for('payment_cancel', _external=True),
+    )
+    return jsonify(id=session.id)
+
+@views.route('/create-charge', methods=['POST'])
+@login_required
+def create_charge():
+    try:
+        # Amount in cents
+        amount = 500  # This is an example, set the actual amount based on your need
+
+        customer = stripe.Customer.create(
+            email=current_user.email,
+            source=request.form['stripeToken']
+        )
+
+        charge = stripe.Charge.create(
+            customer=customer.id,
+            amount=amount,
+            currency='usd',
+            description='Your Product or Service Description'
+        )
+
+        # TODO: Save the payment status, etc. in your database if needed
+
+        return redirect(url_for('success_page'))  # Or wherever you'd like to redirect after a successful payment
+
+    except stripe.error.StripeError:
+        flash('Payment failed. Please try again later.', 'danger')
+        return redirect(url_for('payment_page'))  # Redirect to your payment page
+
+@views.route('/payment-success')
+def payment_success():
+    # Handle post-payment logic here
+    return "Payment was successful!"
+
+@views.route('/payment-cancel')
+def payment_cancel():
+    # Handle payment cancellation logic here
+    return "Payment was cancelled."
+
+
+
+@views.route('/payment', methods=['GET', 'POST'])
+@login_required
+def payment():
+    stripe_public_key = current_app.config['STRIPE_PUBLIC_KEY']
+    return render_template('payment.html', user=current_user, STRIPE_PUBLIC_KEY=stripe_public_key)
+
+
+@views.route('/webhook', methods=['POST'])
+def webhook():
+    event = None
+    payload = request.data
+    sig_header = request.headers['STRIPE_SIGNATURE']
+
+    try:
+        event = stripe.Webhook.construct_event(
+            payload, sig_header, endpoint_secret
+        )
+    except ValueError as e:
+        # Invalid payload
+        raise e
+    except stripe.error.SignatureVerificationError as e:
+        # Invalid signature
+        raise e
+
+    # Handle the event
+    print('Unhandled event type {}'.format(event['type']))
+
+    return jsonify(success=True)
+
+
+

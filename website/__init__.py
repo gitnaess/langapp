@@ -1,7 +1,9 @@
 import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from os import path
+from os import path, environ
+import stripe
+
 from flask_login import LoginManager
 
 # Check if running on PythonAnywhere
@@ -20,6 +22,11 @@ def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'hjshjhdjah kjshkjdhjs'
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
+
+    # Stripe Configuration using environment variables
+    app.config['STRIPE_PUBLIC_KEY'] = environ.get('STRIPE_PUBLIC_KEY')
+    app.config['STRIPE_SECRET_KEY'] = environ.get('STRIPE_SECRET_KEY')
+    stripe.api_key = app.config['STRIPE_SECRET_KEY']
 
     db.init_app(app)
 
